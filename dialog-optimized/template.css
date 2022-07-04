@@ -43,12 +43,16 @@
   pointer-events: auto;
   z-index: 10;
 }
-.sto{
-  width: 100%;
-}
+
 .logo{
+  width: 130px;
   margin-left: auto;
   margin-right: auto;
+}
+.sto{
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .is-visible-cookie-banner #CookieBannerOverlay {
   animation: cookieBannerFadeIn .25s ease-in-out;
@@ -669,6 +673,14 @@
   color: var(--cb-button-active-color, #fff);
   background: var(--cb-button-active-background, #0f0f0f);
   border: var(--cb-button-active-border, var(--cb-button-border, 2px solid #0f0f0f));
+}
+
+@media (max-width: 450px){
+  .logo{
+    width: 80px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 /**

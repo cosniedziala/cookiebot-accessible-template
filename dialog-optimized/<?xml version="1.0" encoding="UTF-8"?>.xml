@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:output method="html" omit-xml-declaration="yes" ></xsl:output>
+	<xsl:template match="/">
+		<style type="text/css">
+			.CookieDeclarationDialogText, .CookieDeclarationIntro, .CookieDeclarationLastUpdated { margin: 0 0 14px 0 }
+			.CookieDeclarationType { display: block; margin: 12px 0 12px 0; padding:8px 8px 0 8px; border: 1px solid #333333; vertical-align: top; }
+			.CookieDeclarationTypeHeader { font-weight: bold; }
+			.CookieDeclarationTypeDescription { margin: 2px 0 16px 0; }
+			.CookieDeclarationTable { table-layout: fixed; width: 100%; border-collapse: collapse; border-spacing: 0; margin: 0 0 18px 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+			.CookieDeclarationTableHeader { font-weight: bold; border-bottom: 1px solid #777777; text-align: left; padding: 4px; overflow:hidden; }
+			.CookieDeclarationTableHeader[dir='rtl'] { text-align: right; }
+			.CookieDeclarationTableCell { text-overflow: ellipsis; word-wrap: break-word; border-bottom: 1px solid #777777; vertical-align: top; padding: 4px 4px 5px 4px; }
+			#CookieDeclarationUserStatusLabelConsentId { text-overflow: ellipsis; word-wrap: break-word; }
+			#CookieDeclarationUserStatusLabel dt, #CookieDeclarationUserStatusLabel dd { display: inline-block; }
+			#CookieDeclarationUserStatusLabel dt { padding-right: 4px; font-weight: 400; margin-left: 0; margin-bottom: .5rem; }
+			@media all and (max-width: 600px) { .CookieDeclaration table.CookieDeclarationTable tr td:nth-child(n+5), .CookieDeclaration table.CookieDeclarationTable tr th:nth-child(n+5), .CookieDeclaration table.CookieDeclarationTable colgroup col:nth-child(n+5){ display: none; }}
+		</style>
+		<div class="CookieDeclaration">
+			<xsl:attribute name="lang">
+				<xsl:value-of select="//Labels/Language"></xsl:value-of>
+			</xsl:attribute>
+			<xsl:attribute name="dir">
+				<xsl:value-of select="//Labels/TextDirection"></xsl:value-of>
+			</xsl:attribute>
+
+			<!-- General cookie introduction -->
+		
+			<div id="CookieDeclarationUserStatusPanel"></div>
+			<br/>
+			<p class="CookieDeclarationLastUpdated">
+				<xsl:value-of select="//Labels/LastUpdated" disable-output-escaping="yes"></xsl:value-of>:
+			</p>
+
+			<!-- Necessary cookies -->
+			<xsl:apply-templates select="//Cookies">
+				<xsl:with-param name="cookieTypeCategory" select="1"></xsl:with-param>
+				<xsl:with-param name="cookieTypeHeader" select="//Labels/CookieTypeNecessaryTitle"></xsl:with-param>
+				<xsl:with-param name="cookieTypeDescription" select="//Labels/CookieTypeNecessaryIntro"></xsl:with-param>
+			</xsl:apply-templates>
+
+			<!-- Preference cookies -->
+			<xsl:apply-templates select="//Cookies">
+				<xsl:with-param name="cookieTypeCategory" select="2"></xsl:with-param>
+				<xsl:with-param name="cookieTypeHeader" select="//Labels/CookieTypePreferenceTitle"></xsl:with-param>
+				<xsl:with-param name="cookieTypeDescription" select="//Labels/CookieTypePreferenceIntro"></xsl:with-param>
+			</xsl:apply-templates>
+
+			<!-- Statistics cookies -->
+			<xsl:apply-templates select="//Cookies">
+				<xsl:with-param name="cookieTypeCategory" select="3"></xsl:with-param>
+				<xsl:with-param name="cookieTypeHeader" select="//Labels/CookieTypeStatisticsTitle"></xsl:with-param>
+				<xsl:with-param name="cookieTypeDescription" select="//Labels/CookieTypeStatisticsIntro"></xsl:with-param>
+			</xsl:apply-templates>
+
+			<!-- Marketing cookies -->
+			<xsl:apply-templates select="//Cookies">
+				<xsl:with-param name="cookieTypeCategory" select="4"></xsl:with-param>
+				<xsl:with-param name="cookieTypeHeader" select="//Labels/CookieTypeMarketingTitle"></xsl:with-param>
+				<xsl:with-param name="cookieTypeDescription" select="//Labels/CookieTypeMarketingIntro"></xsl:with-param>
+			</xsl:apply-templates>
+
+			<!-- Unclassified cookies -->
+			<xsl:apply-templates select="//Cookies">
+				<xsl:with-param name="cookieTypeCategory" select="5"></xsl:with-param>
+				<xsl:with-param name="cookieTypeHeader" select="//Labels/CookieTypeUnclassifiedTitle"></xsl:with-param>
+				<xsl:with-param name="cookieTypeDescription" select="//Labels/CookieTypeUnclassifiedIntro"></xsl:with-param>
+			</xsl:apply-templates>
+
+		</div>
+	</xsl:template>
+
+	<xsl:template match="//Cookies">
+		<xsl:param name="cookieTypeCategory"></xsl:param>
+		<xsl:param name="cookieTypeHeader"></xsl:param>
+		<xsl:param name="cookieTypeDescription"></xsl:param>
+		<xsl:if test="count(//Cookies/Cookie[Category = $cookieTypeCategory]) > 0">
+			<div class="CookieDeclarationType">
+				<xsl:attribute name="lang">
+					<xsl:value-of select="//Labels/Language"></xsl:value-of>
+				</xsl:attribute>
+				<xsl:attribute name="dir">
+					<xsl:value-of select="//Labels/TextDirection"></xsl:value-of>
+				</xsl:attribute>
+				<p class="CookieDeclarationTypeHeader">
+					<xsl:value-of select="$cookieTypeHeader" ></xsl:value-of>
+				</p>
+				<p class="CookieDeclarationTypeDescription">
+					<xsl:value-of select="$cookieTypeDescription" ></xsl:value-of>
+				</p>
+				<table class="CookieDeclarationTable">
+					<colgroup>
+						<col style="width: 20%"></col>
+						<col style="width: 20%"></col>
+						<col style="width: 35%"></col>
+						<col style="width: 15%"></col>
+						<col style="width: 10%"></col>
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col" class="CookieDeclarationTableHeader">
+								<xsl:attribute name="dir">
+									<xsl:value-of select="//Labels/TextDirection"></xsl:value-of>
+								</xsl:attribute>
+								<xsl:value-of select="//Labels/HeaderName" ></xsl:value-of>
+							</th>
+							<th scope="col" class="CookieDeclarationTableHeader">
+								<xsl:attribute name="dir">
+									<xsl:value-of select="//Labels/TextDirection"></xsl:value-of>
+								</xsl:attribute>
+								<xsl:value-of select="//Labels/HeaderProvider" ></xsl:value-of>
+							</th>
+							<th scope="col" class="CookieDeclarationTableHeader">
+								<xsl:attribute name="dir">
+									<xsl:value-of select="//Labels/TextDirection"></xsl:value-of>
+								</xsl:attribute>
+								<xsl:value-of select="//Labels/HeaderPurpose" ></xsl:value-of>
+							</th>
+							<th scope="col" class="CookieDeclarationTableHeader">
+								<xsl:attribute name="dir">
+									<xsl:value-of select="//Labels/TextDirection"></xsl:value-of>
+								</xsl:attribute>
+								<xsl:value-of select="//Labels/HeaderExpiry" ></xsl:value-of>
+							</th>
+							<th scope="col" class="CookieDeclarationTableHeader">
+								<xsl:attribute name="dir">
+									<xsl:value-of select="//Labels/TextDirection"></xsl:value-of>
+								</xsl:attribute>
+								<xsl:value-of select="//Labels/HeaderType" ></xsl:value-of>
+							</th>
+						</tr>
+					</thead>
+					<xsl:apply-templates select="//Cookies/Cookie[Category = $cookieTypeCategory]">
+						<xsl:sort select="Name"></xsl:sort>
+					</xsl:apply-templates>
+				</table>
+			</div>
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:template match="//Cookies/Cookie">
+		<tr>
+			<td class="CookieDeclarationTableCell">
+				<xsl:value-of select="Name"></xsl:value-of>
+			</td>
+			<td class="CookieDeclarationTableCell">
+				<xsl:for-each select="OriginDomains/Domain">
+					<xsl:if test="PrivacyPolicyUrl = ''">
+						<xsl:value-of select="DomainName"></xsl:value-of>
+					</xsl:if>
+					<xsl:if test="PrivacyPolicyUrl != ''">
+						<a target="_blank" rel="noopener noreferrer nofollow">
+							<xsl:attribute name="href">
+								<xsl:value-of select="PrivacyPolicyUrl"></xsl:value-of>
+							</xsl:attribute>
+							<xsl:attribute name="title">
+								<xsl:value-of select="CompanyNamePrivacyPolicy"></xsl:value-of>
+							</xsl:attribute>
+							<xsl:value-of select="CompanyName"></xsl:value-of>
+						</a>
+					</xsl:if>
+					<xsl:if test="position() != last()">
+						<br/>
+					</xsl:if>
+				</xsl:for-each>
+			</td>
+			<td class="CookieDeclarationTableCell">
+				<xsl:value-of select="Purpose"></xsl:value-of>
+			</td>
+			<td class="CookieDeclarationTableCell">
+				<xsl:value-of select="Expire"></xsl:value-of>
+			</td>
+			<td class="CookieDeclarationTableCell">
+				<xsl:value-of select="TrackerType"></xsl:value-of>
+			</td>
+		</tr>
+	</xsl:template>
+
+</xsl:stylesheet>
