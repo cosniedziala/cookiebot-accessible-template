@@ -43,7 +43,13 @@
   pointer-events: auto;
   z-index: 10;
 }
-
+.sto{
+  width: 100%;
+}
+.logo{
+  margin-left: auto;
+  margin-right: auto;
+}
 .is-visible-cookie-banner #CookieBannerOverlay {
   animation: cookieBannerFadeIn .25s ease-in-out;
   animation-fill-mode: forwards;

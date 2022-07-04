@@ -42,6 +42,9 @@
   pointer-events: none;
 }
 
+.sto{
+  width: 100%;
+}
 .is-visible-cookie-banner #CookieBannerOverlay {
   animation: cookieBannerFadeIn .25s ease-in-out;
   animation-fill-mode: forwards;
